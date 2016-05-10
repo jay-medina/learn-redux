@@ -4,7 +4,13 @@ const Types = {
   CLEAR_VALUE: 'CLEAR_VALUE'
 };
 
-const INIT_STATE = '0';
+const INIT_STATE = {
+  last_input: undefined,
+  last_op: undefined,
+  memory: undefined,
+  snd_value: undefined,
+  screen: 0
+};
 
 const numberReducer = function(state = INIT_STATE, action) {
   if(state === INIT_STATE) {

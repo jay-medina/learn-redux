@@ -1,24 +1,16 @@
-var path = require('path');
+const loaders = require('./buildFiles/loaders.js');
+const plugins = require('./buildFiles/plugins.js');
+const entry = require('./buildFiles/entry.js');
+const output = require('./buildFiles/output.js');
 
 module.exports = {
-    entry: "./static/entry.js",
-    output: {
-        path: path.join(__dirname, 'dist'),
-        filename: "bundle.js"
-    },
-    resolve: {
-      extensions: ['', '.js', '.jsx']
-    },
-    module: {
-        loaders: [
-          {
-            test: /\.jsx?$/,
-            exclude: /node_modules/,
-            loader: "babel",
-            query: {
-              presets: ['es2015', 'react']
-            }
-          }
-        ]
-    }
+  entry: entry.getEntries(),
+  output: output.get(),
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
+  module: {
+      loaders: loaders.getLoaders()
+  },
+  plugins: plugins.getPlugins()
 };

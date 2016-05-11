@@ -62,7 +62,7 @@ export default React.createClass({
 
     return (
       <div className="calculator">
-        <Screen value={store.getState()}/>
+        <Screen value={store.getState().screen}/>
         <ButtonContainer clearScreen= {this.clearScreen}
                          updateScreen={this.updateScreen} />
       </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {reducer} from './store/numberStore';
+import {reducer} from './store/calculatorReducer';
 import {createStore} from 'redux';
 import Calculator from './calculator.jsx';
 import './index.css';

@@ -1,5 +1,6 @@
 import './artistSpec';
-import './screenSpec.js';
+import './screenSpec';
 import './calcButtonSpec';
 import './calcSpec';
-import './store/numberStoreSpec';
+import './store/calculatorReducerSpec';
+import './store/plusOperatorSpec';

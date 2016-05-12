@@ -34,10 +34,18 @@
   outline: none;
 }
 
+.calc_btn-row .calc-btn:active {
+  background-color: #C4C3C3;
+}
+
 .calc_btn-row .calc-btn.zero {
   flex: 0 0 50%;
 }
 .calc_btn-row .calc-btn.operator {
   background-color: #F9893B;
   color: #EBEBEB;
+}
+
+.calc_btn-row .calc-btn.operator:active {
+  background-color: #E57B31;
 }

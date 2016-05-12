@@ -37,10 +37,12 @@ describe('Calculator', function(){
   });
 
   describe("when plus operator is clicked", () => {
+    beforeEach(() => {
+      spyOn(calcStore, 'dispatch').and.callThrough();
+      component = TestUtils.renderIntoDocument(<Calculator store={calcStore} />);
+    });
     describe("by default", () => {
       it('should display zero', () => {
-        spyOn(calcStore, 'dispatch').and.callThrough();
-        component = TestUtils.renderIntoDocument(<Calculator store={calcStore} />);
         whenScreenDisplaysANumber(component, '0');
         whenOperatorIsClicked(component, '+');
         thenWeDispatchToUpdateTheScreenValue(calcStore, '+');
@@ -50,10 +52,7 @@ describe('Calculator', function(){
 
     describe("when number is entered first", () => {
       it('should display the number', () => {
-        spyOn(calcStore, 'dispatch').and.callThrough();
-        calcStore.dispatch({type:'UPDATE_VALUE', value: '4'});
-        component = TestUtils.renderIntoDocument(<Calculator store={calcStore} />);
-        whenScreenDisplaysANumber(component, '4');
+        whenNumberButtonIsClicked(component, '4');
         whenOperatorIsClicked(component, '+');
         thenWeDispatchToUpdateTheScreenValue(calcStore, '+');
         thenScreenUpdatesTo('4');
@@ -62,8 +61,6 @@ describe('Calculator', function(){
 
     describe("when number is entered twice", () => {
       it('should display the sum of the two numbers', () => {
-        spyOn(calcStore, 'dispatch').and.callThrough();
-        component = TestUtils.renderIntoDocument(<Calculator store={calcStore} />);
         whenNumberButtonIsClicked(component, '4');
         whenOperatorIsClicked(component, '+');
         whenNumberButtonIsClicked(component, '3');
@@ -74,14 +71,74 @@ describe('Calculator', function(){
     });
   });
 
-  describe('when AC it clicked', () => {
+  describe("when equal operator is clicked", () => {
+
     beforeEach(() => {
       spyOn(calcStore, 'dispatch').and.callThrough();
-      calcStore.dispatch({type:'UPDATE_VALUE', value: '8'});
       component = TestUtils.renderIntoDocument(<Calculator store={calcStore} />);
     });
 
+    describe("by default", () => {
+      it('should display zero', () => {
+        whenScreenDisplaysANumber(component, '0');
+        whenOperatorIsClicked(component, '=');
+        thenWeDispatchToUpdateTheScreenValue(calcStore, '=');
+        thenScreenUpdatesTo('0');
+      });
+    });
+
+    describe("when number is entered first", () => {
+      it('should display the number', () => {
+        whenNumberButtonIsClicked(component, '4');
+        whenOperatorIsClicked(component, '=');
+        thenWeDispatchToUpdateTheScreenValue(calcStore, '=');
+        thenScreenUpdatesTo('4');
+      });
+
+      describe("then non equal operator is clicked", () => {
+        it('should double the number', () => {
+          whenNumberButtonIsClicked(component, '4');
+          whenOperatorIsClicked(component, '+');
+          whenOperatorIsClicked(component, '=');
+          thenWeDispatchToUpdateTheScreenValue(calcStore, '=');
+          thenScreenUpdatesTo('8');
+        });
+      });
+
+      describe("then non equal operator and equal operator are clicked", () => {
+        it('should increase the value by the original screen value', () => {
+          whenNumberButtonIsClicked(component, '4');
+          whenOperatorIsClicked(component, '+');
+          whenOperatorIsClicked(component, '=');
+          whenOperatorIsClicked(component, '=');
+          thenWeDispatchToUpdateTheScreenValue(calcStore, '=');
+          thenScreenUpdatesTo('12');
+        });
+      });
+    });
+  });
+
+  describe("mix of plus and equal operator", () => {
+    it('should display correct output', () => {
+      spyOn(calcStore, 'dispatch').and.callThrough();
+      component = TestUtils.renderIntoDocument(<Calculator store={calcStore} />);
+      whenNumberButtonIsClicked(component, '3');
+      whenOperatorIsClicked(component, '+');
+      whenNumberButtonIsClicked(component, '3');
+      whenOperatorIsClicked(component, '=');
+      component = thenScreenUpdatesTo('6');
+      whenOperatorIsClicked(component, '+');
+      whenNumberButtonIsClicked(component, '5');
+      whenOperatorIsClicked(component, '=');
+      thenScreenUpdatesTo('11');
+    });
+  });
+
+  describe('when AC it clicked', () => {
     it('should reset value of screen', () => {
+      spyOn(calcStore, 'dispatch').and.callThrough();
+      calcStore.dispatch({type:'UPDATE_VALUE', value: '8'});
+      component = TestUtils.renderIntoDocument(<Calculator store={calcStore} />);
       whenScreenDisplaysANumber(component, '8');
       whenACButtonIsClicked(component);
       thenWeDispatchToResetTheValue(calcStore);
@@ -94,6 +151,7 @@ describe('Calculator', function(){
     const scrnNode = ReactDOM.findDOMNode(getScreen(component));
 
     expect(scrnNode.textContent).toEqual(value);
+    return component;
   }
 
   function thenWeDispatchToUpdateTheScreenValue(calcStore, value) {

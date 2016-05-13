@@ -22,6 +22,14 @@ describe("CalculatorReducer", () => {
         });
       });
     });
+
+    describe("when user hits +/- button", () => {
+      it('should have no effect', () => {
+        const result = reducer(getInit(), {type: 'UPDATE_VALUE', value: '+/-'});
+
+        expect(result).toEqual(getInit());
+      });
+    });
   });
 
   describe("when screen value is not zero", () => {
@@ -37,7 +45,38 @@ describe("CalculatorReducer", () => {
         snd_value: undefined,
         screen: 48
       });
-    })
+    });
+
+    describe("when user hits +/- button", () => {
+      it('should inverse the sign of the value', () => {
+        let result = reducer(getInit(), {type: 'UPDATE_VALUE', value: '4'});
+            result = reducer(result, {type: 'UPDATE_VALUE', value: '+/-'});
+
+        expect(result).toEqual({
+          last_input: '+/-',
+          last_op: undefined,
+          memory: undefined,
+          snd_value: undefined,
+          screen: -4
+        });
+      });
+
+      describe("when user hits +/- again", () => {
+        it('should inverse the sign of the value back again', () => {
+          let result = reducer(getInit(), {type: 'UPDATE_VALUE', value: '4'});
+              result = reducer(result, {type: 'UPDATE_VALUE', value: '+/-'});
+              result = reducer(result, {type: 'UPDATE_VALUE', value: '+/-'});
+
+          expect(result).toEqual({
+            last_input: '+/-',
+            last_op: undefined,
+            memory: undefined,
+            snd_value: undefined,
+            screen: 4
+          });
+        });
+      });
+    });
   });
 
   describe("when the value is not a number or an operator", () => {

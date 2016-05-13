@@ -146,6 +146,42 @@ describe('Calculator', function(){
     });
   });
 
+  describe("when +/- button is clicked", () => {
+    it('should invert the sign of the value', () => {
+      spyOn(calcStore, 'dispatch').and.callThrough();
+      component = TestUtils.renderIntoDocument(<Calculator store={calcStore} />);
+      whenNumberButtonIsClicked(component, '3');
+      whenNumberButtonIsClicked(component, '+/-');
+      thenWeDispatchToUpdateTheScreenValue(calcStore, '+/-');
+      thenScreenUpdatesTo('-3');
+    });
+
+    describe("when +/- button is clicked for 2nd time", () => {
+      it('should invert the sign back to original value', () => {
+        spyOn(calcStore, 'dispatch').and.callThrough();
+        component = TestUtils.renderIntoDocument(<Calculator store={calcStore} />);
+        whenNumberButtonIsClicked(component, '3');
+        whenNumberButtonIsClicked(component, '+/-');
+        thenWeDispatchToUpdateTheScreenValue(calcStore, '+/-');
+        component = thenScreenUpdatesTo('-3');
+        whenNumberButtonIsClicked(component, '+/-');
+        thenScreenUpdatesTo('3');
+      });
+    });
+
+    describe("When the following sequence is inputted", () => {
+      it('should result in zero', () => {
+        spyOn(calcStore, 'dispatch').and.callThrough();
+        component = TestUtils.renderIntoDocument(<Calculator store={calcStore} />);
+        whenNumberButtonIsClicked(component, '3');
+        whenOperatorIsClicked(component, '+');
+        whenNumberButtonIsClicked(component, '+/-');
+        whenOperatorIsClicked(component, '=');
+        thenScreenUpdatesTo('0');
+      });
+    });
+  });
+
   function thenScreenUpdatesTo(value) {
     const component = TestUtils.renderIntoDocument(<Calculator store={calcStore} />);
     const scrnNode = ReactDOM.findDOMNode(getScreen(component));

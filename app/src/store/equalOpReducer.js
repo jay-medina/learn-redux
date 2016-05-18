@@ -1,16 +1,7 @@
 import _ from 'underscore';
+import {execute} from './util';
 
 const OPERATOR = '=';
-
-const execute = (op, one, two) => {
-  switch(op) {
-    case '+': return one + two;
-    case '-': return one - two;
-    case '/': return one / two;
-    case '*': return one * two;
-  }
-  return 0;
-};
 
 export default function operatorReducer(state) {
   if(state.last_input === OPERATOR) {
@@ -35,7 +26,7 @@ export default function operatorReducer(state) {
     if(_.isUndefined(state.snd_value)) {
       nState.snd_value = state.screen;
     }
-    
+
     return nState;
   }
 

@@ -1,6 +1,7 @@
 import _ from 'underscore';
 import plusOpReducer from './plusOpReducer';
 import equalOpReducer from './equalOpReducer';
+import minusOpReducer from './minusOpReducer';
 
 function plusMinusReducer(state, operator) {
   const nState = Object.assign({}, state);
@@ -16,8 +17,9 @@ function plusMinusReducer(state, operator) {
 export default function operatorReducer(state, action) {
   const operator = action.value;
   switch (operator) {
-    case '+': return plusOpReducer(state, operator);
-    case '=': return equalOpReducer(state, operator);
+    case '-': return minusOpReducer(state);
+    case '+': return plusOpReducer(state);
+    case '=': return equalOpReducer(state);
     case '+/-': return plusMinusReducer(state, operator);
   }
 

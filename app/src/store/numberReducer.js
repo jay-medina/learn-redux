@@ -1,6 +1,5 @@
 import _ from 'underscore';
-
-const OPERATORS = ['+'];
+import {isOperator} from './util';
 
 function secondValueInput(state, number) {
   if(_.isUndefined(state.snd_value)) {
@@ -42,7 +41,7 @@ export default function numberReducer(state, action) {
     return state;
   }
 
-  if(OPERATORS.includes(state.last_input) || !_.isUndefined(state.snd_value)) {
+  if(isOperator(state.last_input) || !_.isUndefined(state.snd_value)) {
     return secondValueInput(state, number);
   }
 

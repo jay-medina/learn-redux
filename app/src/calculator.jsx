@@ -24,7 +24,7 @@ const ButtonContainer = React.createClass({
           <CalcButton {...this.props}>7</CalcButton>
           <CalcButton {...this.props}>8</CalcButton>
           <CalcButton {...this.props}>9</CalcButton>
-          <OperatorBtn {...this.props}>X</OperatorBtn>
+          <OperatorBtn {...this.props}>*</OperatorBtn>
         </ButtonRow>
         <ButtonRow>
           <CalcButton {...this.props}>4</CalcButton>

@@ -1,5 +1,5 @@
 
-const OPERATORS = ['+', '-'];
+const OPERATORS = ['+', '-', '*', '/'];
 
 export const execute = (op, one, two) => {
   switch(op) {

@@ -139,7 +139,7 @@ describe("MinusOperator", () => {
   describe("mixing minus and plus", () => {
     it('produce the correct result', () => {
       const state = getInit();
-      debugger;
+      
       let result = reducer(state, {type: 'UPDATE_VALUE', value: '2'});
           result = reducer(result, {type: 'UPDATE_VALUE', value: '+'});
           result = reducer(result, {type: 'UPDATE_VALUE', value: '6'});

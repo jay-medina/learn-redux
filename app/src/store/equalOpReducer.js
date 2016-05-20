@@ -1,12 +1,12 @@
 import _ from 'underscore';
 import {execute} from './util';
 
-const OPERATOR = '=';
+const EQUAL = '=';
 
 export default function operatorReducer(state) {
-  if(state.last_input === OPERATOR) {
+  if(state.last_input === EQUAL) {
       return {
-        last_input: OPERATOR,
+        last_input: EQUAL,
         last_op: state.last_op,
         memory: execute(state.last_op, state.screen, state.snd_value),
         snd_value: state.snd_value,
@@ -16,7 +16,7 @@ export default function operatorReducer(state) {
 
   if(!_.isUndefined(state.last_op)) {
     const nState = {
-      last_input: OPERATOR,
+      last_input: EQUAL,
       last_op: state.last_op,
       memory: execute(state.last_op, state.memory, state.screen),
       snd_value: state.snd_value,
@@ -31,7 +31,7 @@ export default function operatorReducer(state) {
   }
 
   return {
-    last_input: OPERATOR,
+    last_input: EQUAL,
     last_op: state.last_op,
     memory: state.screen,
     snd_value: undefined,

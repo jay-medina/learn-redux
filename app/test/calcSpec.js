@@ -106,6 +106,40 @@ describe('Calculator', function(){
     });
   });
 
+  describe("when multiply operator is clicked", () => {
+    beforeEach(() => {
+      spyOn(calcStore, 'dispatch').and.callThrough();
+      component = TestUtils.renderIntoDocument(<Calculator store={calcStore} />);
+    });
+    describe("by default", () => {
+      it('should display zero', () => {
+        whenScreenDisplaysANumber(component, '0');
+        whenOperatorIsClicked(component, '*');
+        thenWeDispatchToUpdateTheScreenValue(calcStore, '*');
+        thenScreenUpdatesTo('0');
+      });
+    });
+
+    describe("when number is entered first", () => {
+      it('should display the number', () => {
+        whenNumberButtonIsClicked(component, '4');
+        whenOperatorIsClicked(component, '*');
+        thenWeDispatchToUpdateTheScreenValue(calcStore, '*');
+        thenScreenUpdatesTo('4');
+      });
+    });
+
+    describe("when number is entered twice", () => {
+      it('should display the sum of the two numbers', () => {
+        whenNumberButtonIsClicked(component, '4');
+        whenOperatorIsClicked(component, '*');
+        whenNumberButtonIsClicked(component, '3');
+        whenOperatorIsClicked(component, '*');
+        thenWeDispatchToUpdateTheScreenValue(calcStore, '*');
+        thenScreenUpdatesTo('12');
+      });
+    });
+  });
 
   describe("when equal operator is clicked", () => {
 

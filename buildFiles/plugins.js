@@ -1,14 +1,16 @@
 const webpack = require('webpack');
 
+
 function forProduction() {
   const argv = process.argv;
   return argv.length > 2 && argv[2] === '--production';
 }
 
 function getPlugins() {
+  const plugins = [];
 
   if(forProduction()){
-    return [
+    return plugins.concat([
       new webpack.DefinePlugin({
         "process.env": {
           NODE_ENV: JSON.stringify("production")
@@ -19,10 +21,10 @@ function getPlugins() {
         name: 'vendor',
         chunks: ['vendor']
       })
-    ];
+    ]);
   }
 
-  return [];
+  return plugins;
 }
 
 module.exports = {

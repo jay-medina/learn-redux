@@ -1,6 +1,6 @@
-import _ from 'underscore';
 import mainOpReducer from './mainOpReducer';
 import equalOpReducer from './equalOpReducer';
+import divideOpReducer from './divideReducer';
 
 function plusMinusReducer(state, operator) {
   const nState = Object.assign({}, state);
@@ -19,6 +19,7 @@ export default function operatorReducer(state, action) {
     case '-': return mainOpReducer(state, operator);
     case '+': return mainOpReducer(state, operator);
     case '*': return mainOpReducer(state, operator);
+    case '/': return divideOpReducer(state, operator);
     case '=': return equalOpReducer(state);
     case '+/-': return plusMinusReducer(state, operator);
   }

@@ -1,9 +1,22 @@
 import _ from 'underscore';
+import {isADivideByZeroCase} from './divideReducer';
 import {execute} from './util';
 
 const EQUAL = '=';
+const NOT_A_NUMBER = 'not a number';
 
 export default function operatorReducer(state) {
+
+  if(isADivideByZeroCase(state)) {
+    return {
+      last_input: undefined,
+      last_op: undefined,
+      memory: NOT_A_NUMBER,
+      snd_value: undefined,
+      screen: NOT_A_NUMBER
+    };
+  }
+
   if(state.last_input === EQUAL) {
       return {
         last_input: EQUAL,
@@ -11,7 +24,7 @@ export default function operatorReducer(state) {
         memory: execute(state.last_op, state.screen, state.snd_value),
         snd_value: state.snd_value,
         screen: execute(state.last_op, state.screen, state.snd_value)
-      }
+      };
   }
 
   if(!_.isUndefined(state.last_op)) {

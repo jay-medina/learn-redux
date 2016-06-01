@@ -1,5 +1,3 @@
-const path = require('path');
-
 function get() {
   return {
     path: './dist',
